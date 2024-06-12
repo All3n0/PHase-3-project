@@ -122,31 +122,46 @@ def main():
     conn.commit()
     conn.close()
 def list_data():   
-    display_all()
-def display_all():
-    conn=get_connection()
-    cursor=conn.cursor()
-    cursor.execute('SELECT * FROM movies')
-    movies=cursor.fetchall()
-    cursor.execute('SELECT * FROM actors')
-    actors=cursor.fetchall()
-    cursor.execute('SELECT * FROM directors')
-    directors=cursor.fetchall()
-    cursor.execute('SELECT * FROM chief_crew')
-    chief_crew=cursor.fetchall()
+    while True:
+        list_option = input("Enter what you want to list (all, movies, actors, directors, crew): ").strip().lower()
+        if list_option not in ["all", "movies", "actors", "directors", "crew"]:
+            print("Invalid option. Please try again.")
+        else:
+            break
+    
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    if list_option == "all" or list_option == "movies":
+        cursor.execute('SELECT * FROM movies')
+        movies = cursor.fetchall()
+        print("\nMovies:")
+        for movie in movies:
+            print(Movie(movie["id"], movie["title"], movie["genre"], movie["director_id"], movie["chief_crew_id"], movie["actors_id"]))
+    
+    if list_option == "all" or list_option == "actors":
+        cursor.execute('SELECT * FROM actors')
+        actors = cursor.fetchall()
+        print("\nActors:")
+        for actor in actors:
+            print(Actor(actor["id"], actor["name"]))
+    
+    if list_option == "all" or list_option == "directors":
+        cursor.execute('SELECT * FROM directors')
+        directors = cursor.fetchall()
+        print("\nDirectors:")
+        for director in directors:
+            print(Director(director["id"], director["name"]))
+    
+    if list_option == "all" or list_option == "crew":
+        cursor.execute('SELECT * FROM chief_crew')
+        chief_crew = cursor.fetchall()
+        print("\nChief Crew:")
+        for chief in chief_crew:
+            print(ChiefCrew(chief["id"], chief["name"], chief["category"]))
+
     conn.close()
-    print("\nMovies:")
-    for  movie in movies:
-        print(Movie (movie["id"],movie["title"],movie["genre"],movie["director_id"],movie["chief_crew_id"],movie["actors_id"]))
-    print("\nActors:")
-    for actor in actors:
-        print(Actor(actor["id"],actor["name"]))
-    print("\nDirectors:")
-    for director in directors:
-        print(Director(director["id"],director["name"]))
-    print("\nChief Crew:")
-    for chief in chief_crew:
-        print(ChiefCrew(chief["id"],chief["name"],chief["category"]))
+
 if __name__=="__main__":
     while True:
         command=input("Enter command(clear;Add;exit,Delete;List): ")
