@@ -19,6 +19,7 @@ class Director:
         if len(name)<2:
             raise ValueError('name must be at least 2 characters')
         self._name=name
+    #get movies based on director
     @property
     def movies(self):
         from lib.movies import Movie
@@ -36,6 +37,7 @@ class Director:
             return [Movie(movie['id'],movie['title'],movie['genre'],movie['director_id'],movie['chief_crew_id'],movie['actors_id']) for movie in movies]
         else:
             return []
+    #get actors based on director
     @property
     def actors(self):
         from lib.actors import Actor
@@ -54,6 +56,7 @@ class Director:
             return [Actor(actor['id'],actor['name']) for actor in actors]
         else:
             return []
+    #final representation
     def __repr__(self):
         actor_names=', '.join([actor.name for actor in self.actors])
         movie_names=', '.join([movie.title for movie in self.movies])
