@@ -30,6 +30,7 @@ class Movie:
     def genre(self,genre):
         
         self._genre=genre
+    #getting director based on movie
     @property
     def director(self):
         from lib.directors import Director
@@ -37,7 +38,7 @@ class Movie:
         if director_info:
             return Director(director_info['id'],director_info['name'])
         else:return None
-   
+   #getting actors based on movie
     @property
     def actors(self):
         from lib.actors import Actor
@@ -55,6 +56,7 @@ class Movie:
             return [Actor(actor['id'],actor['name']) for actor in actors]
         else:
             return []
+    #getting chief crew based on movie
     @property
     def chief_crew(self):
         from lib.crew import ChiefCrew
@@ -72,6 +74,7 @@ class Movie:
             return [ChiefCrew(chief['id'],chief['name'],chief['category']) for chief in chief_crew]
         else:
             return []   
+    #getting director info based on movie
     @staticmethod
     def get_director_info(director_id):
         conn=get_connection()
@@ -84,7 +87,7 @@ class Movie:
         director_info=cursor.fetchone()
         conn.close()
         return director_info
-    
+    #final representation
     def __repr__(self):
         actor_names=', '.join([actor.name for actor in self.actors])
         director_names=self.director.name if self.director else 'Unknown'
