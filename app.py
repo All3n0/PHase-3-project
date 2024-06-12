@@ -20,7 +20,6 @@ def delete_data():
             print("Invalid option. Please choose from 'movie', 'director', 'crew', or 'actor'.")
         else:
             break
-
     name_to_delete = input("Enter the name of the {}: ".format(delete_option))
     conn = get_connection()
     cursor = conn.cursor()
@@ -81,7 +80,7 @@ def main():
    
     conn=get_connection()
     cursor=conn.cursor()
-    #######################################
+    ##############################
    
 
     #actors
