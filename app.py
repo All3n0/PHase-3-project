@@ -4,6 +4,7 @@ from lib.movies import Movie
 from lib.actors import Actor
 from lib.crew import ChiefCrew
 from lib.directors import Director
+#Remove data from all the tables.
 def clear_data():
     conn=get_connection()
     cursor=conn.cursor()
@@ -81,8 +82,6 @@ def main():
     conn=get_connection()
     cursor=conn.cursor()
     ##############################
-   
-
     #actors
     cursor.execute('SELECT id FROM actors WHERE name=?',(movie_actors,))
     actor_info=cursor.fetchone()
