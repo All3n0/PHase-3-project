@@ -59,7 +59,7 @@ def main():
         else:
             break
     while True:
-        movie_chief_crew=input(" Movie's chief crew member: ")
+        movie_chief_crew=input("Movie's crew member: ")
         if len(movie_chief_crew)<2:
             print("chief crew member name must be at least 2 characters")
         else:
@@ -121,7 +121,7 @@ def main():
     #################################
     conn.commit()
     conn.close()
-    
+def list_data():   
     display_all()
 def display_all():
     conn=get_connection()
@@ -149,7 +149,7 @@ def display_all():
         print(ChiefCrew(chief["id"],chief["name"],chief["category"]))
 if __name__=="__main__":
     while True:
-        command=input("Enter command(clear;Add;exit,Delete): ")
+        command=input("Enter command(clear;Add;exit,Delete;List): ")
         if command.strip().lower()=="clear":
             clear_data()
         elif command.strip().lower()=="add":
@@ -158,5 +158,7 @@ if __name__=="__main__":
             exit()
         elif command.strip().lower()=="delete":
             delete_data()
+        elif command.strip().lower()=="list":
+            list_data()
         else:
             print("Invalid command, please try again")
