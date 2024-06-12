@@ -4,19 +4,87 @@ from lib.movies import Movie
 from lib.actors import Actor
 from lib.crew import ChiefCrew
 from lib.directors import Director
+def clear_data():
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute('DELETE FROM movies')
+    cursor.execute('DELETE FROM actors')
+    cursor.execute('DELETE FROM directors')
+    cursor.execute('DELETE FROM chief_crew')
+    conn.commit()
+    conn.close()
+def delete_data():
+    while True:
+        delete_option = input("Enter what you want to delete (movie, director, crew, actor): ").strip().lower()
+        if delete_option not in ["movie", "director", "crew", "actor"]:
+            print("Invalid option. Please choose from 'movie', 'director', 'crew', or 'actor'.")
+        else:
+            break
 
+    name_to_delete = input("Enter the name of the {}: ".format(delete_option))
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    if delete_option == "movie":
+        cursor.execute("DELETE FROM movies WHERE title=?", (name_to_delete,))
+    elif delete_option == "director":
+        cursor.execute("DELETE FROM directors WHERE name=?", (name_to_delete,))
+    elif delete_option == "crew":
+        cursor.execute("DELETE FROM chief_crew WHERE name=?", (name_to_delete,))
+    elif delete_option == "actor":
+        cursor.execute("DELETE FROM actors WHERE name=?", (name_to_delete,))
+    
+    conn.commit()
+    conn.close()
+    print("Deleted {} '{}' successfully.".format(delete_option, name_to_delete))
 def main():
     create_tables()
-    movie_name=input("Enter Movie's name: ")
-    movie_genre=input("Enter Movie's genre: ")
-    movie_director=input("Enter Movie's director: ")
-    movie_chief_crew=input(" Movie's chief crew member: ")
-    movie_chief_crew_category=input(" chief crew member's category: ")
-    movie_actors=input("Enter Movie's main actor: ")
+    while True:
+        movie_name=input("Enter Movie's name: ")
+        if len(movie_name)<2:
+            print("Movie name must be at least 2 characters")
+        else:
+            break
+    while True:
+        movie_genre=input("Enter Movie's genre(action,comedy,drama,horror,romance): ")
+        genres=['action','comedy','drama','horror','romance']
+        if movie_genre not in genres:
+            print("Genre must be one of the following: action,comedy,drama,horror,romance")
+        else:
+            break
+    while True:
+        movie_director=input("Enter Movie's director: ")
+        if len(movie_director)<2:
+            print("Director name must be at least 2 characters")
+        else:
+            break
+    while True:
+        movie_chief_crew=input(" Movie's chief crew member: ")
+        if len(movie_chief_crew)<2:
+            print("chief crew member name must be at least 2 characters")
+        else:
+            break
+    while True:
+        categories=['sound','visual','light','sound,visual','light,sound,visual','light,visual','sound,light,visual']
+        movie_chief_crew_category=input(" chief crew member's category(sound,visual,light): ")
+        if movie_chief_crew_category not in categories:
+            print("chief crew member's category must be one of the following: sound,visual,light")
+        else:
+            break
+    while True:
+        movie_actors=input("Enter Movie's main actor: ")
+        if len(movie_actors)<2:
+            print("Actor name must be at least 2 characters")
+        else:
+            break
+    
    
     conn=get_connection()
     cursor=conn.cursor()
     #######################################
+   
+
+    #actors
     cursor.execute('SELECT id FROM actors WHERE name=?',(movie_actors,))
     actor_info=cursor.fetchone()
     if actor_info:
@@ -24,6 +92,7 @@ def main():
     else:
         cursor.execute('INSERT INTO actors(name) VALUES(?)',(movie_actors,))
         actor_id=cursor.lastrowid
+    #directors
     cursor.execute('SELECT id FROM directors WHERE name=?',(movie_director,))
     director_info=cursor.fetchone()
     if director_info:
@@ -31,18 +100,28 @@ def main():
     else:
         cursor.execute('INSERT INTO directors(name) VALUES(?)',(movie_director,))
         director_id=cursor.lastrowid
+    #chief crew
     cursor.execute('SELECT id FROM chief_crew WHERE name=? AND category=?',(movie_chief_crew,movie_chief_crew_category))
     chief_crew_info=cursor.fetchone()
     if chief_crew_info:
         chief_crew_id=chief_crew_info[0]
     else:
         cursor.execute('INSERT INTO chief_crew(name,category) VALUES(?,?)',(movie_chief_crew,movie_chief_crew_category))
-        chief_crew_id=cursor.lastrowid  
-    cursor.execute('INSERT INTO movies(title,genre,director_id,chief_crew_id,actors_id) VALUES(?,?,?,?,?)',(movie_name,movie_genre,director_id,chief_crew_id,actor_id))
+        chief_crew_id=cursor.lastrowid 
+    #movies 
+    cursor.execute("SELECT id FROM movies WHERE title=? AND director_id=?", (movie_name, director_id))
+    existing_movie = cursor.fetchone()
+    if existing_movie:
+        movie_id = existing_movie[0]
+        cursor.execute("UPDATE movies SET genre=?, chief_crew_id=?, actors_id=? WHERE id=?", (movie_genre, chief_crew_id, actor_id, movie_id))
+    else:
+        cursor.execute("INSERT INTO movies(title, genre, director_id, chief_crew_id, actors_id) VALUES(?, ?, ?, ?, ?)",
+                       (movie_name, movie_genre, director_id, chief_crew_id, actor_id))
+        movie_id = cursor.lastrowid
     #################################
     conn.commit()
     conn.close()
-    movie=Movie(None,movie_name,movie_genre,movie_director,movie_chief_crew,movie_actors)
+    
     display_all()
 def display_all():
     conn=get_connection()
@@ -65,7 +144,19 @@ def display_all():
     print("\nDirectors:")
     for director in directors:
         print(Director(director["id"],director["name"]))
+    print("\nChief Crew:")
     for chief in chief_crew:
         print(ChiefCrew(chief["id"],chief["name"],chief["category"]))
 if __name__=="__main__":
-    main()
+    while True:
+        command=input("Enter command(clear;Add;exit,Delete): ")
+        if command.strip().lower()=="clear":
+            clear_data()
+        elif command.strip().lower()=="add":
+            main()
+        elif command.strip().lower()=="exit":
+            exit()
+        elif command.strip().lower()=="delete":
+            delete_data()
+        else:
+            print("Invalid command, please try again")
