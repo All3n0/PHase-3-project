@@ -28,9 +28,7 @@ class Movie:
         return self._genre
     @genre.setter
     def genre(self,genre):
-        # genres=['comedy','drama','action','thriller','romance','horror','animation','sci-fi','documentary','musical','western','fantasy','crime']
-        # if genre not in genres:
-        #     raise ValueError('genre must be one of the following: comedy,drama,action,thriller,romance,horror,animation,sci-fi,documentary,musical,western,fantasy,crime')
+        
         self._genre=genre
     @property
     def director(self):
