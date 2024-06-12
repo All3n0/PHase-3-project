@@ -14,6 +14,7 @@ def clear_data():
     cursor.execute('DELETE FROM chief_crew')
     conn.commit()
     conn.close()
+#Delete data from a specific table.
 def delete_data():
     while True:
         delete_option = input("Enter what you want to delete (movie, director, crew, actor): ").strip().lower()
@@ -37,6 +38,7 @@ def delete_data():
     conn.commit()
     conn.close()
     print("Deleted {} '{}' successfully.".format(delete_option, name_to_delete))
+#Add data to all the tables.
 def main():
     create_tables()
     while True:
@@ -119,6 +121,7 @@ def main():
     #################################
     conn.commit()
     conn.close()
+#list data in the database
 def list_data():   
     while True:
         list_option = input("Enter what you want to list (all, movies, actors, directors, crew): ").strip().lower()

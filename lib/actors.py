@@ -26,7 +26,7 @@ class Actor:
         if not isinstance(name, str):
             raise TypeError('name must be a string')
         self._name = name
-
+    #getting movies based on actors
     @property
     def movies(self):
         from lib.movies import Movie
@@ -44,7 +44,7 @@ class Actor:
             return [Movie(movie['id'], movie['title'], movie['genre'], movie['director_id'], movie['chief_crew_id'], movie['actors_id']) for movie in movies]
         else:
             return []
-
+    #getting directors based on actors
     def directors(self):
         from lib.directors import Director
         conn = get_connection()
@@ -62,7 +62,7 @@ class Actor:
             return [Director(director['id'], director['name']) for director in directors]
         else:
             return []
-
+    # final representation
     def __repr__(self):
         movie_names = ', '.join([movie.title for movie in self.movies])
         director_names = ', '.join([director.name for director in self.directors()])
