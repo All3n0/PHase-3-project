@@ -29,6 +29,7 @@ class ChiefCrew:
         if category not in categories:
             raise ValueError('category must be one of the following: camera,sound,lighting,editing,casting')
         self._category=category
+    #get movies based on crew
     @property
     def movies(self):
         from lib.movies import Movie
@@ -46,6 +47,7 @@ class ChiefCrew:
             return [Movie(movie['id'],movie['title'],movie['genre'],movie['director_id'],movie['chief_crew_id'],movie['actors_id']) for movie in movies]
         else:
             return []
+    #final representation
     def __repr__(self):
         movie_names=', '.join([movie.title for movie in self.movies])
         return f'<Crew-Member {self.name}:Category:{self.category}| Movies: {movie_names}>'
