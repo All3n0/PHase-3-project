@@ -3,3 +3,5 @@
  Allan Too
  ## Explanation
  This is a program that is meant to be used in the film industry to track the relationships of films and those who contributed in making them as well as showing the reelationships between them.It is a CLI application that allows users to add,view and remove from the database thus promoting smooth handling of the film data.
+### LOGICAL FUNCTIONING 
+The programm has a database called Films.db in which the data is stored.It has four tables with the movies table having a one to many with the others as it has foreighn keys from all the other tables.When a user interacts with the program,they are given four options,either to add,list,delete or clear the database.When a user selects add they are given a series of prompts and if their inputs meet the conditions the inputs are updated to the database.When a user selects delete they can specify what exactly what they want to delete and using a select by name method,the element is removed from the database.The clear input completely clears the database.Finally the list option provides the user with a list from the databse showing the relationships between data.
