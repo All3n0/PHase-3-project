@@ -6,6 +6,17 @@ from lib.crew import ChiefCrew
 from lib.directors import Director
 #Remove data from all the tables.
 def clear_data():
+    while True:
+        confirm = input("Are you sure you want to delete all data? (y/n): ").strip().lower()
+        if confirm == "y":
+            code="1234"
+            confirm_code=input("Enter the code: ")
+            if confirm_code==code:
+                break
+            else:
+                print("Invalid code. Please try again.")
+        elif confirm == "n":
+            return
     conn=get_connection()
     cursor=conn.cursor()
     cursor.execute('DELETE FROM movies')
