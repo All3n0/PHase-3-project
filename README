@@ -1,4 +1,4 @@
- # MOVIE PLACE
+ # Filmify
  ### AUTHOR
  Allan Too
  ## Explanation
@@ -21,3 +21,9 @@ The programm has a database called Films.db in which the data is stored.It has f
  3. Delete-Provides the user with the ability to choose what to delete as the user can specify what exactly it is they want removed from the database by use of the select by name method
  4. Clear-Provides the user with the ability to clear the whole database in the event of they want to start afresh.
  5. Exit-This is the input that allows the user to leave the loop.
+### License
+This project is licensed under the MIT License. See the LICENSE.md file for details.
+### Acknowledgments
+Filmify was supported by resources and documentation from Python SQLite3 Documentation and Pipenv Documentation.
+###  Contacts
+For inquiries and support,kindly contact the author ,Allan Too at allankipr6@gmail.com
