@@ -1,0 +1,5 @@
+ # MOVIE PLACE
+ ### AUTHOR
+ Allan Too
+ ## Explanation
+ This is a program that is meant to be used in the film industry to track the relationships of films and those who contributed in making them as well as showing the reelationships between them.It is a CLI application that allows users to add,view and remove from the database thus promoting smooth handling of the film data.
